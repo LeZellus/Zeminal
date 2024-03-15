@@ -3,5 +3,37 @@
 @tailwind utilities;
 
 body {
-    font-family: "Poppins", sans-serif;
+    font-family: "IBM Plex Mono", monospace;
+}
+
+.circle {
+    @apply size-4 rounded-full;
+}
+
+
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #E7E7E7;
+}
+
+input:focus-visible {
+    @apply outline-none;
+}
+
+input[type="submit"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+button::-moz-focus-inner {
+    border : 0;
 }

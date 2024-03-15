@@ -6,50 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="https://matheozeller.fr/uploads/portfolio_icon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://matheozeller.fr/uploads/portfolio_icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-32x32.png">
 
 
     <!-- Fonts Links -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style/output.css">
 </head>
-<body>
-<header>
+<body class="text-sm text-white bg-test-600 flex justify-center items-center min-h-screen">
 
-</header>
-
-<nav>
-    <!-- Barre de navigation -->
-</nav>
-
-<main class="min-h-screen bg-gray-900 flex items-center justify-center text-white">
-    <!-- Contenu principal de la page -->
-    <section class="text-center grid gap-8">
-        <h1 class="text-gray-300 text-5xl">Simple<span class="text-rose-300 font-bold">HTML</span>Template</h1>
-        <p class="">By <a class="text-teal-400" href="https://matheozeller.fr/">Mathéo Zeller</a></p>
-
-        <div class="flex justify-center space-x-4">
-            <a href="https://github.com/LeZellus">
-                <svg class="fill-white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"></path></svg>
-            </a>
-            <a href="https://www.linkedin.com/in/zellrdesign/">
-                <svg class="fill-white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path></svg>
-            </a>
+<main class="bg-test-500 max-w-5xl rounded-md p-4 w-full border border-gray-700 overflow-hidden relative">
+    <span class="absolute left-1/2 transform -translate-x-1/2 font-bold top-4">~</span>
+    <div class="flex space-x-4">
+        <button id="close" class="circle bg-red-500"></button>
+        <button id="reduce" class="circle bg-yellow-500"></button>
+        <button id="fullscreen" class="circle bg-green-500"></button>
+    </div>
+    <div id="terminal-container" class="terminal-container mt-4 overflow-y-scroll h-96 pr-1">
+        <p>Zeminal Powershell</p>
+        <p>Copyright (C) Mathéo Zeller Corporation. Tous droits réservés.</p>
+        <p class="mb-2">Tapez 'command' pour obtenir la liste des commandes</p>
+        <div id="terminal" class="w-full">
+            <div id="history"></div>
         </div>
-    </section>
+
+        <form id="formPrompt">
+            <div class="flex items-center">
+                <p>C:\Users\google\zeminal.fr\prompt></p>
+                <label for="prompt"></label>
+                <input autofocus class="ml-2 bg-transparent focus:appearance-none caret-emerald-500 outline-0" id="prompt" type="text">
+            </div>
+        </form>
+    </div>
 </main>
-
-<aside>
-    <!-- Contenu secondaire, comme une barre latérale -->
-</aside>
-
-<footer>
-    <!-- Pied de page -->
-</footer>
 
 <script src="javascript/app.js"></script>
 </body>
