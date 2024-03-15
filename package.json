@@ -1,0 +1,14 @@
+{
+  "name": "simpletailwindtemplate",
+  "version": "1.0.0",
+  "description": "This project is a basic template for a website. It employs HTML, CSS, and JavaScript to create a simple yet extendable skeleton for web development.'s architecture is designed to be intuitive and easy to customize.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mathéo Zeller",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
