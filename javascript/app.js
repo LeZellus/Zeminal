@@ -1,87 +1,178 @@
 document.addEventListener('DOMContentLoaded', function() {
     const inputElement = document.getElementById('prompt');
     const historyElement = document.getElementById('history');
-    let displayedHistory = '';
+    const terminalContainer = document.getElementById("terminal-container");
+    const fullscreenBtn = document.getElementById('fullscreen');
+    const iconExitFullscreen = document.getElementById('icon-exit-fullscreen');
+    const iconFullscreen = document.getElementById('icon-fullscreen');
+    const socialLinks = {
+        'Github': 'https://github.com/LeZellus',
+        'Linkedin': 'https://www.linkedin.com/in/zellrdesign/',
+        'Fiverr': 'https://www.fiverr.com/lezeller',
+        'website': 'https://matheozeller.fr/'
+    };
+
     let commandHistory = [];
     let currentHistoryIndex = -1;
 
-    inputElement.addEventListener('keypress', function (e) {
+    inputElement.addEventListener('keypress', handleKeyPress);
+    inputElement.addEventListener('keydown', handleArrowKeys);
+    fullscreenBtn.addEventListener('click', toggleFullScreen);
+    document.addEventListener('click', keepInputFocused);
+    document.addEventListener('scroll', keepInputFocused, true);
+
+    function handleKeyPress(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
-
-            const command = inputElement.value;
-            displayedHistory += `C:\\Users\\google\\zeminal.fr\\prompt> ${command}\n`;
-
-            // Ajout de la commande à l'historique et réinitialisation de l'index
-            commandHistory.push(command);
-            currentHistoryIndex = commandHistory.length;
-
-            // Traitement de la commande
-            let response = '';
-            switch (command) {
-                case 'skills':
-                    response = "> Je bosse dur";
-                    break;
-                case 'about':
-                    response = "> Je suis fatigué";
-                    break;
-                default:
-                    response = "> Commandes disponibles: help, about, skills;";
-            }
-            addCommandToHistory(`C:\\Users\\google\\zeminal.fr\\prompt> ${command}`, response);
-
-            // Ajout de la commande à l'historique et réinitialisation de l'index
-            commandHistory.push(command);
-            currentHistoryIndex = commandHistory.length;
-
+            const command = inputElement.value.trim();
+            processCommand(command);
             inputElement.value = '';
             scrollToBottom();
         }
-    });
+    }
 
-    inputElement.addEventListener('keydown', function (e) {
-        if (e.key === 'ArrowUp') {
+    function processCommand(command) {
+        commandHistory.push(command);
+        currentHistoryIndex = commandHistory.length - 1;
+
+        let response = '';
+
+        if (command.startsWith('cd ')) {
+            const socialName = command.substring(3); // Récupère le nom du réseau social après 'cd '
+            if (socialLinks[socialName]) {
+                openSocialLink(socialName);
+                addCommandToHistory(command, `> Ouverture de ${socialLinks[socialName]}`);
+                return;
+            }
+        }
+
+        switch (command) {
+            case 'clear':
+                clearHistory();
+                break;
+            case 'skills':
+                response = "> Je bosse dur";
+                break;
+            case 'stacks':
+                response = "> Le site est fait en HTML/CSS avec Tailwind et du Javascipt Vanilla";
+                break;
+            case 'email':
+                response = "> matheo.zeller@gmail.com";
+                openEmail();
+                break;
+            case 'about':
+                response = "> Je suis Mathéo Zeller, Web développeur passionné de design. Je code depuis bientôt 5ans maintenant...";
+                break;
+            case 'website':
+                response = formatWebsiteResponse();
+                break;
+            case 'help':
+                response = formatHelpResponse();
+                break;
+            case 'socials':
+                response = formatSocialsResponse();
+                break;
+            case '':
+                response = '';
+                break;
+            default:
+                if (command.trim() !== '') {
+                    response = formatErrorResponse();
+                }
+                break;
+        }
+        addCommandToHistory(command, response);
+    }
+
+    function handleArrowKeys(e) {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
             e.preventDefault();
-            if (currentHistoryIndex > 0) {
+            if (e.key === 'ArrowUp' && currentHistoryIndex > 0) {
                 currentHistoryIndex--;
-                inputElement.value = commandHistory[currentHistoryIndex];
-            }
-        } else if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            if (currentHistoryIndex < commandHistory.length - 1) {
+            } else if (e.key === 'ArrowDown' && currentHistoryIndex < commandHistory.length - 1) {
                 currentHistoryIndex++;
-                inputElement.value = commandHistory[currentHistoryIndex];
-            } else {
-                currentHistoryIndex = commandHistory.length;
-                inputElement.value = '';
             }
+            inputElement.value = commandHistory[currentHistoryIndex] || '';
         }
-    });
+    }
 
-    document.getElementById('fullscreen').addEventListener('click', function() {
+    function toggleFullScreen() {
         if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen();
+            document.documentElement.requestFullscreen().then(() => {
+                iconExitFullscreen.classList.remove('hidden');
+                iconFullscreen.classList.add('hidden');
+            });
         } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            }
+            document.exitFullscreen().then(() => {
+                iconExitFullscreen.classList.add('hidden');
+                iconFullscreen.classList.remove('hidden');
+            });
         }
-    });
+    }
 
-    function scrollToBottom() {
-        const terminalContainer = document.getElementById("terminal-container");
-        terminalContainer.scrollTop = terminalContainer.scrollHeight;
+    function clearHistory() {
+        historyElement.innerHTML = '';
+    }
+
+    function openEmail() {
+        setTimeout(function() {
+            window.location.href = 'mailto:matheo.zeller@gmail.com';
+        }, 100);
+    }
+
+    function openWebsite() {
+        window.open('https://matheozeller.fr/', '_blank');
+    }
+
+    function formatSocialsResponse() {
+        return "<ul class='mb-2'>" +
+                "  <li><span class='command-color'>Github</span>: https://github.com/LeZellus</li>" +
+                "  <li><span class='command-color'>Linkedin</span>: https://www.linkedin.com/in/zellrdesign/</li>" +
+                "  <li><span class='command-color'>Fiverr</span>: https://www.fiverr.com/lezeller</li>" +
+                "</ul>" +
+                "<p>Usage: cd `social_name`</p>" +
+                "<p>Exemple: cd Github</p>";
+    }
+
+    function formatDefaultResponse() {
+        return "";
+    }
+
+    function formatErrorResponse() {
+        return "<p>Commande erronée. Veuillez essayer à nouveau.</p>" +
+            "<p>Tapez `<span class=\"text-green-300\">help</span>` pour obtenir la liste des commandes</p>";
+    }
+
+    function formatWebsiteResponse() {
+        return "> https://matheozeller.fr/ ~ Tapez `<span class=\"text-green-300\">cd website</span>` pour l'ouvrir dans un navigateur";
+    }
+
+    function formatHelpResponse() {
+        return "<ul>" +
+                "  <li><span class='command-color'>stacks</span>: Affiche technologies utilisées pour ce site.</li>" +
+                "  <li><span class='command-color'>about</span>: Affiche quelques lignes à propos de moi.</li>" +
+                "  <li><span class='command-color'>email</span>: Affiche mon mail.</li>" +
+                "  <li><span class='command-color'>website</span>: Affiche mon site web personnel.</li>" +
+                "  <li><span class='command-color'>skills</span>: Affiche une liste détaillée de mes compétences et capacités.</li>" +
+                "  <li><span class='command-color'>clear</span>: Recommencer une nouvelle session de discussion.</li>" +
+                "</ul>";
     }
 
     function addCommandToHistory(command, response) {
-        const commandElement = document.createElement('p');
-        commandElement.classList.add('mb-2');
-        commandElement.textContent = command;
+        const commandElement = document.createElement('div');
+        commandElement.innerHTML = `<div class="text-white"><span class="text-pink-400">zeminal.fr</span>@<span class="command-color">prompt</span>:~$ ${command}</div>`;
         historyElement.appendChild(commandElement);
 
-        const responseElement = document.createElement('p');
-        responseElement.textContent = response;
-        historyElement.appendChild(responseElement);
+        if (response) {
+            const responseElement = document.createElement('div');
+            responseElement.classList.add('mb-2', 'response');
+            responseElement.innerHTML = response;
+            historyElement.appendChild(responseElement);
+        }
+    }
+
+    function scrollToBottom() {
+        terminalContainer.scrollTop = terminalContainer.scrollHeight;
     }
 
     function keepInputFocused() {
@@ -90,6 +181,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    document.addEventListener('click', keepInputFocused);
-    document.addEventListener('scroll', keepInputFocused, true);
+    function openSocialLink(socialName) {
+        const url = socialLinks[socialName];
+        if (url) {
+            window.open(url, '_blank');
+        }
+    }
 });
