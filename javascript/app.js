@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
         'Github': 'https://github.com/LeZellus',
         'Linkedin': 'https://www.linkedin.com/in/zellrdesign/',
         'Fiverr': 'https://www.fiverr.com/lezeller',
-        'website': 'https://matheozeller.fr/'
+        'website': 'https://matheozeller.fr/',
+        'email': 'mailto:matheo.zeller@gmail.com'
     };
 
     let commandHistory = [];
@@ -46,19 +47,24 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
+        if (command.startsWith('echo ')) {
+            const text = command.substring(5); // Récupère le nom du réseau social après 'cd '
+            addCommandToHistory(command, `> ${text}`);
+            return;
+        }
+
         switch (command) {
             case 'clear':
                 clearHistory();
                 break;
             case 'skills':
-                response = "> Je bosse dur";
+                response = formatSkillsResponse();
                 break;
             case 'stacks':
                 response = "> Le site est fait en HTML/CSS avec Tailwind et du Javascipt Vanilla";
                 break;
             case 'email':
-                response = "> matheo.zeller@gmail.com";
-                openEmail();
+                response = openEmail();
                 break;
             case 'about':
                 response = "> Je suis Mathéo Zeller, Web développeur passionné de design. Je code depuis bientôt 5ans maintenant...";
@@ -115,9 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function openEmail() {
-        setTimeout(function() {
-            window.location.href = 'mailto:matheo.zeller@gmail.com';
-        }, 100);
+        return "> matheo.zeller@gmail.com ~ Tapez `<span class=\"text-green-300\">cd email</span>` pour l'ouvrir dans votre boite mail";
     }
 
     function openWebsite() {
@@ -147,12 +151,22 @@ document.addEventListener('DOMContentLoaded', function() {
         return "> https://matheozeller.fr/ ~ Tapez `<span class=\"text-green-300\">cd website</span>` pour l'ouvrir dans un navigateur";
     }
 
+    function formatSkillsResponse() {
+        return "<ul>" +
+            "  <li><span class='command-color'>backend</span>: Symfony, API</li>" +
+            "  <li><span class='command-color'>data</span>: MySQL, PHPMyAdmin, Doctrine</li>" +
+            "  <li><span class='command-color'>frontend</span>: HTML5, CSS, Tailwind, React</li>" +
+            "  <li><span class='command-color'>other</span>: PhpStorm, Gitmoji, FeatherIcons</li>" +
+            "</ul>";
+    }
+
     function formatHelpResponse() {
         return "<ul>" +
                 "  <li><span class='command-color'>stacks</span>: Affiche technologies utilisées pour ce site.</li>" +
                 "  <li><span class='command-color'>about</span>: Affiche quelques lignes à propos de moi.</li>" +
                 "  <li><span class='command-color'>email</span>: Affiche mon mail.</li>" +
                 "  <li><span class='command-color'>website</span>: Affiche mon site web personnel.</li>" +
+                "  <li><span class='command-color'>echo `text`</span>: Affiche le texte tapé</li>" +
                 "  <li><span class='command-color'>skills</span>: Affiche une liste détaillée de mes compétences et capacités.</li>" +
                 "  <li><span class='command-color'>clear</span>: Recommencer une nouvelle session de discussion.</li>" +
                 "</ul>";
